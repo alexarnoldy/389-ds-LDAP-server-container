@@ -1,0 +1,10 @@
+OU_NAME=""
+GROUP=""
+GROUPID=""
+dn: cn=$GROUP,ou=$OU_NAME,$SUFFIX
+#changetype: add
+#changetype: delete
+objectClass: top
+objectClass: groupOfUniqueNames
+gidNumber: $GROUPID
+cn: $GROUP
