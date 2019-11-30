@@ -1,7 +1,0 @@
-OU_NAME=""
-dn: ou=$OU_NAME,$SUFFIX
-#changetype: add
-#changetype: delete
-objectclass: top
-objectclass: organizationalUnit
-ou: $OU_NAME

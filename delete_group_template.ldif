@@ -1,0 +1,2 @@
+dn: cn=GROUP,ou=OU_NAME,SUFFIX
+changetype: delete

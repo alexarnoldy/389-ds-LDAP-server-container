@@ -22,7 +22,10 @@ NOTE: Sourcing the container_variables.txt file before each command ensures the 
 
 NOTE: This section contains example for managing OU's, users, and groups: https://documentation.suse.com/suse-caasp/4.0.2/single-html/caasp-admin/#_adding_a_new_organizational_unit
  
+.Add a new Organizational Unit:
+* Update the OU_NAME variable in the update_ou.ldif file
+* Run the command: `. container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f $LDIF_OU_UPDATE_FILE -w $ROOT_PASSWORD`
 
-
+ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_NODE_FQDN$LDAP_NODE_PROTOCOL -D "$BIND_DN" -f $LDIF_FILE -w $ROOT_PASSWORD
 // vim: set syntax=asciidoc:
 

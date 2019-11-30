@@ -1,0 +1,12 @@
+# Create the hash with: /usr/sbin/slappasswd -h {SSHA} -s <password>
+# Note that this is just a small subset of the fields that can be populated for a user
+dn: uid=USERID,ou=OU_NAME,dc=example,dc=org
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+uid: USERID
+userPassword: PASSWORD_HASH
+givenname: FIRST_NAME
+sn: SURNAME
+cn: FULL_NAME
+mail: E-MAIL_ADDRESS
