@@ -30,11 +30,11 @@ cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE
 ----
 * Populate the update file with the OU to be added:
 ----
-OU_NAME=""
-sed -i "s/OU_NAME/$OU_NAME/" updates-processing/$LDIF_UPDATE_FILE
+OU_NAME=""   # Populate is variable with the OU name
+. container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE
 ----
 
-* Apply the update file: `. container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f $LDIF_UPDATE_FILE -w $ROOT_PASSWORD && mv updates-processing/$LDIF_UPDATE_FILE updates-completed/`
+* Apply the update file: `. container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$LDIF_UPDATE_FILE -w $ROOT_PASSWORD && mv updates-processing/$LDIF_UPDATE_FILE updates-completed/`
 
 
 
