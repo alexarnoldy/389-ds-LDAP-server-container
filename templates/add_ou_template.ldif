@@ -1,5 +1,0 @@
-dn: ou=OU_NAME,SUFFIX
-changetype: add
-objectclass: top
-objectclass: organizationalUnit
-ou: OU_NAME

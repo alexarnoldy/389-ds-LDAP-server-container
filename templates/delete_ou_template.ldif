@@ -1,2 +1,0 @@
-dn: ou=OU_NAME,SUFFIX
-changetype: delete

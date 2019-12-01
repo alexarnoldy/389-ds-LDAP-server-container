@@ -1,6 +1,0 @@
-dn: cn=GROUP_NAME,ou=OU_NAME,SUFFIX
-changetype: add
-objectClass: top
-objectClass: groupOfUniqueNames
-cn: GROUP_NAME
-
