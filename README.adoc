@@ -131,6 +131,25 @@ done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
 
+.Add a User to an existing group:
+* Create the update file(s) and place them in the updates-processing directory: 
+----
+while : ; do \
+read -p "Enter the User login name to add to a group (or Ctrl+c to end): " USER_ID; \
+read -p "Enter existing group to add the user to: " GROUP_NAME; \
+read -p "Enter the existing OU that contains the group: " OU_NAME; \
+echo ""; \
+LDIF_UPDATE_FILE=4add_user_to_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+cp -p add_user_to_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+. container_variables.txt && \
+sed -i "s/USER_ID/$USER_ID/; \
+s/GROUP_NAME/$GROUP_NAME/; \
+s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+done
+----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
+
 .Apply all of the update file(s) in the updates-proccessing directory: 
 * Review all of the files in the updates-proccessing directory before proceeding
 * Additional .ldif files can be added for batch processing if they fit the schema of the LDAP database
@@ -138,6 +157,7 @@ done
 for EACH_UPDATE in `ls -1 updates-processing/`; do \
 . container_variables.txt && \
 ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$EACH_UPDATE -w $ROOT_PASSWORD && \
+sleep 1; \
 LDIF_COMPLETED_STUB=`echo $EACH_UPDATE | awk -F- '{print$1}'`; \
 LDIF_COMPLETED_FILE=$LDIF_COMPLETED_STUB-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 mv updates-processing/$EACH_UPDATE updates-completed/$LDIF_COMPLETED_FILE; \ 
