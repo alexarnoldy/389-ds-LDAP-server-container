@@ -20,19 +20,37 @@ NOTE: Sourcing the container_variables.txt file before each command ensures the 
 
 * Run a test search: `. container_variables.txt && ldapsearch -x -H ldap://localhost -b $SUFFIX -D "$ROOT_DN" -w $ROOT_PASSWORD`
 
-NOTE: This section contains example for managing OU's, users, and groups: https://documentation.suse.com/suse-caasp/4.0.2/single-html/caasp-admin/#_adding_a_new_organizational_unit
+NOTE: This section of the administration guide contains example for managing OU's, users, and groups: https://documentation.suse.com/suse-caasp/4.0.2/single-html/caasp-admin/#_adding_a_new_organizational_unit
+ 
  
 .Add a new Organizational Unit:
 * Create the update file(s) and place them in the updates-processing directory: 
 ----
 while : ; do read -p "Enter new OU name (or Ctrl+c to end): " OU_NAME; LDIF_UPDATE_FILE=add_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
 ----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
 
 .Delete an Organizational Unit:
 * Create the update file(s) and place them in the updates-processing directory: 
 ----
 while : ; do read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; LDIF_UPDATE_FILE=delete_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
 ----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
+
+.Add a new Group:
+* Create the update file(s) and place them in the updates-processing directory: 
+----
+while : ; do read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; read -p "Enter Group ID for the new group: " GROUP_ID; read -p "Enter the existing OU to create the group in: " OU_NAME; LDIF_UPDATE_FILE=add_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/GROUP_NAME/$GROUP_NAME/; s/GROUP_ID/$GROUP_ID/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
+----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
+
+.Delete an Organizational Unit:
+* Create the update file(s) and place them in the updates-processing directory: 
+----
+while : ; do read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; LDIF_UPDATE_FILE=delete_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
+----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
+
 .Apply all of the update file(s) in the updates-proccessing directory: 
 ----
 for EACH_UPDATE in `ls -1 updates-processing/`; do . container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$EACH_UPDATE -w $ROOT_PASSWORD && mv updates-processing/$EACH_UPDATE updates-completed/; done

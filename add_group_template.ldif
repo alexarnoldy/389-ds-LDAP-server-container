@@ -1,6 +1,7 @@
-dn: cn=GROUP,ou=OU_NAME,SUFFIX
+dn: cn=GROUP_NAME,ou=OU_NAME,SUFFIX
 changetype: add
 objectClass: top
 objectClass: groupOfUniqueNames
-gidNumber: GROUPID
-cn: GROUP
+gidNumber: GROUP_ID
+cn: GROUP_NAME
+
