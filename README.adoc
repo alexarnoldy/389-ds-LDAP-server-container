@@ -30,7 +30,7 @@ while : ; do \
 read -p "Enter new OU name (or Ctrl+c to end): " OU_NAME; \
 echo ""; \
 LDIF_UPDATE_FILE=1add_ou-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/OU_NAME/$OU_NAME/; \
 s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
@@ -45,7 +45,7 @@ while : ; do \
 read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; \
 echo ""; \
 LDIF_UPDATE_FILE=3delete_ou-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/OU_NAME/$OU_NAME/; \
 s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
@@ -61,7 +61,7 @@ read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the existing OU to create the group in: " OU_NAME; \
 echo ""; \
 LDIF_UPDATE_FILE=2add_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/GROUP_NAME/$GROUP_NAME/; \
 s/OU_NAME/$OU_NAME/; \
@@ -78,7 +78,7 @@ read -p "Enter name of Group to delete (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the OU that contains the group to delete: " OU_NAME; \ 
 echo ""; \
 LDIF_UPDATE_FILE=2delete_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p delete_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/delete_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/GROUP_NAME/$GROUP_NAME/; \
 s/OU_NAME/$OU_NAME/; \
@@ -100,7 +100,7 @@ read -p "Enter new User's full name: " FULL_NAME; \
 read -p "Enter new User's email address: " EMAIL_ADDRESS; \
 echo ""; \
 LDIF_UPDATE_FILE=3add_user-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p add_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/add_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/USERID/$USERID/; \
 s/OU_NAME/$OU_NAME/; \
@@ -122,7 +122,7 @@ read -p "Enter User login name to delete (or Ctrl+c to end): " USER_ID; \
 read -p "Enter the OU that contains the user to delete: " OU_NAME; \ 
 echo ""; \
 LDIF_UPDATE_FILE=1delete_user-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p delete_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/delete_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/USER_ID/$USER_ID/; \
 s/OU_NAME/$OU_NAME/; \
@@ -140,7 +140,7 @@ read -p "Enter existing group to add the user to: " GROUP_NAME; \
 read -p "Enter the existing OU that contains the group: " OU_NAME; \
 echo ""; \
 LDIF_UPDATE_FILE=4add_user_to_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
-cp -p add_user_to_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+cp -p templates/add_user_to_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/USER_ID/$USER_ID/; \
 s/GROUP_NAME/$GROUP_NAME/; \
