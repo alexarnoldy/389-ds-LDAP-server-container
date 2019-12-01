@@ -2,6 +2,10 @@
 
 NOTE: Tools to search a update the server after creatation can be found at: https://github.com/alexarnoldy/389-ds-LDAP-data-tools
 
+* (Optional) Create a directory to contain this 389-ds LDAP server container and the data tools: `mkdir ./389-ds-ldap-server && cd $_`
+* Clone this repository: `git clone git@github.com:alexarnoldy/389-ds-LDAP-server-container.git && cd 389-ds-LDAP-server-container`
+* Use an editor to update the container_variables.txt file to fit your environment
+ 
 .Create and run the server container
 * Use an editor to update the container_variables.txt file for your environment
 * Source the container_variables.txt file and create the 389-ds data directory: `. container_variables.txt && mkdir $DATA_DIR`
