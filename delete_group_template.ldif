@@ -1,2 +1,2 @@
-dn: cn=GROUP,ou=OU_NAME,SUFFIX
+dn: cn=GROUP_NAME,ou=OU_NAME,SUFFIX
 changetype: delete

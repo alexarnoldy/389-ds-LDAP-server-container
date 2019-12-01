@@ -40,14 +40,14 @@ while : ; do read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; 
 .Add a new Group:
 * Create the update file(s) and place them in the updates-processing directory: 
 ----
-while : ; do read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; read -p "Enter Group ID for the new group: " GROUP_ID; read -p "Enter the existing OU to create the group in: " OU_NAME; LDIF_UPDATE_FILE=add_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/GROUP_NAME/$GROUP_NAME/; s/GROUP_ID/$GROUP_ID/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
+while : ; do read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; read -p "Enter the existing OU to create the group in: " OU_NAME; LDIF_UPDATE_FILE=add_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/GROUP_NAME/$GROUP_NAME/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
 
-.Delete an Organizational Unit:
+.Delete a Group:
 * Create the update file(s) and place them in the updates-processing directory: 
 ----
-while : ; do read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; LDIF_UPDATE_FILE=delete_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
+while : ; do read -p "Enter name of Group to delete (or Ctrl+c to end): " GROUP_NAME; read -p "Enter the OU that contains the group to delete: " OU_NAME; LDIF_UPDATE_FILE=delete_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p delete_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/GROUP_NAME/$GROUP_NAME/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
 
