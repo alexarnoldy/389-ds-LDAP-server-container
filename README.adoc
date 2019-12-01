@@ -23,18 +23,15 @@ NOTE: Sourcing the container_variables.txt file before each command ensures the 
 NOTE: This section contains example for managing OU's, users, and groups: https://documentation.suse.com/suse-caasp/4.0.2/single-html/caasp-admin/#_adding_a_new_organizational_unit
  
 .Add a new Organizational Unit:
-* Create the update file in the updates-processing directory: 
+* Create the update file(s) and place them in the updates-processing directory: 
 ----
-LDIF_UPDATE_FILE=add_ou_`date +"%d.%b.%Y.%H.%M"`.ldif
-cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE
-----
-* Populate the update file with the OU to be added:
-----
-OU_NAME=""   # Populate is variable with the OU name
-. container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE
+while : ; do read -p "Enter new OU name (or Ctrl+c to end): " OU_NAME; LDIF_UPDATE_FILE=add_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; . container_variables.txt && sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; done
 ----
 
-* Apply the update file: `. container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$LDIF_UPDATE_FILE -w $ROOT_PASSWORD && mv updates-processing/$LDIF_UPDATE_FILE updates-completed/`
+* Apply the update file(s) in the updates-proccessing directory: 
+----
+for EACH_UPDATE in `ls -1 updates-processing/`; do . container_variables.txt && ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$EACH_UPDATE -w $ROOT_PASSWORD && mv updates-processing/$EACH_UPDATE updates-completed/; done
+----
 
 
 
