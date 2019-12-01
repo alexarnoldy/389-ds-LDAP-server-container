@@ -103,7 +103,7 @@ done
 for EACH_UPDATE in `ls -1 updates-processing/`; do \
 . container_variables.txt && \
 ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$EACH_UPDATE -w $ROOT_PASSWORD && \
-mv updates-processing/$EACH_UPDATE updates-completed/; \
+mv updates-processing/$EACH_UPDATE updates-completed/; \ # Need to update the date when moving to the completed directory
 done
 ----
 
