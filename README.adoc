@@ -29,7 +29,7 @@ NOTE: This section of the administration guide contains example for managing OU'
 while : ; do \
 read -p "Enter new OU name (or Ctrl+c to end): " OU_NAME; \
 echo ""; \
-LDIF_UPDATE_FILE=add_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+LDIF_UPDATE_FILE=1add_ou-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/OU_NAME/$OU_NAME/; \
@@ -44,7 +44,7 @@ done
 while : ; do \
 read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; \
 echo ""; \
-LDIF_UPDATE_FILE=delete_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+LDIF_UPDATE_FILE=3delete_ou-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/OU_NAME/$OU_NAME/; \
@@ -60,7 +60,7 @@ while : ; do \
 read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the existing OU to create the group in: " OU_NAME; \
 echo ""; \
-LDIF_UPDATE_FILE=add_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+LDIF_UPDATE_FILE=2add_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/GROUP_NAME/$GROUP_NAME/; \
@@ -77,7 +77,7 @@ while : ; do \
 read -p "Enter name of Group to delete (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the OU that contains the group to delete: " OU_NAME; \ 
 echo ""; \
-LDIF_UPDATE_FILE=delete_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+LDIF_UPDATE_FILE=2delete_group-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p delete_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/GROUP_NAME/$GROUP_NAME/; \
@@ -99,7 +99,7 @@ read -p "Enter new User's last name: " SURNAME; \
 read -p "Enter new User's full name: " FULL_NAME; \
 read -p "Enter new User's email address: " EMAIL_ADDRESS; \
 echo ""; \
-LDIF_UPDATE_FILE=add_user_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+LDIF_UPDATE_FILE=3add_user-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
 sed -i "s/USERID/$USERID/; \
@@ -114,6 +114,23 @@ done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
 
+.Delete a User:
+* Create the update file(s) and place them in the updates-processing directory: 
+----
+while : ; do \
+read -p "Enter User login name to delete (or Ctrl+c to end): " USER_ID; \
+read -p "Enter the OU that contains the user to delete: " OU_NAME; \ 
+echo ""; \
+LDIF_UPDATE_FILE=1delete_user-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+cp -p delete_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
+. container_variables.txt && \
+sed -i "s/USER_ID/$USER_ID/; \
+s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+done
+----
+* Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
+
 .Apply all of the update file(s) in the updates-proccessing directory: 
 * Review all of the files in the updates-proccessing directory before proceeding
 * Additional .ldif files can be added for batch processing if they fit the schema of the LDAP database
@@ -121,7 +138,9 @@ done
 for EACH_UPDATE in `ls -1 updates-processing/`; do \
 . container_variables.txt && \
 ldapmodify -v -H $LDAP_PROTOCOL://$LDAP_SERVER_FQDN$LDAP_SERVER_PORT -D "$BIND_DN" -f updates-processing/$EACH_UPDATE -w $ROOT_PASSWORD && \
-mv updates-processing/$EACH_UPDATE updates-completed/; \ # Need to update the date when moving to the completed directory
+LDIF_COMPLETED_STUB=`echo $EACH_UPDATE | awk -F- '{print$1}'`; \
+LDIF_COMPLETED_FILE=$LDIF_COMPLETED_STUB-`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
+mv updates-processing/$EACH_UPDATE updates-completed/$LDIF_COMPLETED_FILE; \ 
 done
 ----
 
