@@ -28,10 +28,12 @@ NOTE: This section of the administration guide contains example for managing OU'
 ----
 while : ; do \
 read -p "Enter new OU name (or Ctrl+c to end): " OU_NAME; \
+echo ""; \
 LDIF_UPDATE_FILE=add_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
-sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+sed -i "s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
 done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
@@ -41,10 +43,12 @@ done
 ----
 while : ; do \
 read -p "Enter name of OU to delete (or Ctrl+c to end): " OU_NAME; \
+echo ""; \
 LDIF_UPDATE_FILE=delete_ou_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p delete_ou_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
-sed -i "s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+sed -i "s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
 done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
@@ -55,10 +59,13 @@ done
 while : ; do \
 read -p "Enter new Group name (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the existing OU to create the group in: " OU_NAME; \
+echo ""; \
 LDIF_UPDATE_FILE=add_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
-sed -i "s/GROUP_NAME/$GROUP_NAME/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+sed -i "s/GROUP_NAME/$GROUP_NAME/; \
+s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
 done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
@@ -69,10 +76,13 @@ done
 while : ; do \
 read -p "Enter name of Group to delete (or Ctrl+c to end): " GROUP_NAME; \
 read -p "Enter the OU that contains the group to delete: " OU_NAME; \ 
+echo ""; \
 LDIF_UPDATE_FILE=delete_group_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p delete_group_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
-sed -i "s/GROUP_NAME/$GROUP_NAME/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
+sed -i "s/GROUP_NAME/$GROUP_NAME/; \
+s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/" updates-processing/$LDIF_UPDATE_FILE; \
 done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
@@ -82,16 +92,24 @@ done
 ----
 while : ; do \
 read -p "Enter new User login name (or Ctrl+c to end): " USERID; \
-read -p "Enter the existing OU to create the group in: " OU_NAME; \
+read -p "Enter the existing OU to create the user in: " OU_NAME; \
 read -p "Enter the SSHA hash of the user's password (if needed, use: http://projects.marsching.org/weave4j/util/genpassword.phpO: " PASSWORD_HASH; \
 read -p "Enter new User's first name: " FIRST_NAME; \
 read -p "Enter new User's last name: " SURNAME; \
 read -p "Enter new User's full name: " FULL_NAME; \
 read -p "Enter new User's email address: " EMAIL_ADDRESS; \
+echo ""; \
 LDIF_UPDATE_FILE=add_user_`date +"%d.%b.%Y.%H.%M.%S"`.ldif; \
 cp -p add_user_template.ldif updates-processing/$LDIF_UPDATE_FILE; \
 . container_variables.txt && \
-sed -i "s/USERID/$USERID/; s/OU_NAME/$OU_NAME/; s/SUFFIX/$SUFFIX/; s/PASSWORD_HASH/$PASSWORD_HASH/; s/FIRST_NAME/$FIRST_NAME/; s/SURNAME/$SURNAME/; s/FULL_NAME/$FULL_NAME/; s/EMAIL_ADDRESS/$EMAIL_ADDRESS/" updates-processing/$LDIF_UPDATE_FILE; \
+sed -i "s/USERID/$USERID/; \
+s/OU_NAME/$OU_NAME/; \
+s/SUFFIX/$SUFFIX/; \
+s/PASSWORD_HASH/$PASSWORD_HASH/; \
+s/FIRST_NAME/$FIRST_NAME/; \
+s/SURNAME/$SURNAME/; \
+s/FULL_NAME/$FULL_NAME/; \
+s/EMAIL_ADDRESS/$EMAIL_ADDRESS/" updates-processing/$LDIF_UPDATE_FILE; \
 done
 ----
 * Continue with more updates or move on to the "Apply all of the update file(s) in the updates-proccessing directory" section
