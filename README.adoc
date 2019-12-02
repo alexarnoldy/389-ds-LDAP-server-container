@@ -36,6 +36,7 @@ ss -npr --listening | grep 389
 
 * Run a test search: `source container_variables.txt && ldapsearch -x -H ldap://localhost -b $SUFFIX -D "$ROOT_DN" -w $ROOT_PASSWORD`
 
+* (Optional) Add the tools to search and update the server after creatation from: https://github.com/alexarnoldy/389-ds-LDAP-data-tools
 
 // vim: set syntax=asciidoc:
 
