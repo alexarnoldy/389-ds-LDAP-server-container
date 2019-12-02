@@ -12,6 +12,9 @@ NOTE: Tools to search and update the server after creatation can be found at: ht
 
 NOTE: Sourcing the container_variables.txt file before each command ensures the correct variables are available for each command invocation
 
+NOTE: The next update to this repo will move the container_variable.txt file to the ~/389-ds-ldap-server directory so both tools and server repos 
+can point to the same file
+
 * Run the container:
 ----
 source container_variables.txt && sudo podman run -d \
